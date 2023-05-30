@@ -57,21 +57,21 @@ max_ph4 = 0.6702
 
 @st.cache_resource()
 def load_models():
-    model_0 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_0.pkl', 'rb'))
-    model_1 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_1.pkl', 'rb'))
-    model_2 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_2.pkl', 'rb'))
-    model_3 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_3.pkl', 'rb'))
-    model_4 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_4.pkl', 'rb'))
-    model_5 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_5.pkl', 'rb'))
-    model_6 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/model_6.pkl', 'rb'))
+    model_0 = pickle.load(open('model_0.pkl', 'rb'))
+    model_1 = pickle.load(open('model_1.pkl', 'rb'))
+    model_2 = pickle.load(open('model_2.pkl', 'rb'))
+    model_3 = pickle.load(open('model_3.pkl', 'rb'))
+    model_4 = pickle.load(open('model_4.pkl', 'rb'))
+    model_5 = pickle.load(open('model_5.pkl', 'rb'))
+    model_6 = pickle.load(open('model_6.pkl', 'rb'))
 
-    minmax_0 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_0.pkl', 'rb'))
-    minmax_1 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_1.pkl', 'rb'))
-    minmax_2 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_2.pkl', 'rb'))
-    minmax_3 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_3.pkl', 'rb'))
-    minmax_4 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_4.pkl', 'rb'))
-    minmax_5 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_5.pkl', 'rb'))
-    minmax_6 = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/minmax_6.pkl', 'rb'))
+    minmax_0 = pickle.load(open('minmax_0.pkl', 'rb'))
+    minmax_1 = pickle.load(open('minmax_1.pkl', 'rb'))
+    minmax_2 = pickle.load(open('minmax_2.pkl', 'rb'))
+    minmax_3 = pickle.load(open('minmax_3.pkl', 'rb'))
+    minmax_4 = pickle.load(open('minmax_4.pkl', 'rb'))
+    minmax_5 = pickle.load(open('minmax_5.pkl', 'rb'))
+    minmax_6 = pickle.load(open('minmax_6.pkl', 'rb'))
 
     models = [model_0, model_1, model_2, model_3, model_4, model_5, model_6]
     scalers = [minmax_0, minmax_1, minmax_2, minmax_3, minmax_4, minmax_5, minmax_6]
@@ -81,21 +81,21 @@ def load_models():
 @st.cache_data()
 def load_data():
 
-    AD = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/AD.pkl', 'rb'))
-    FEATURES = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/FEATURES.pkl', 'rb'))
-    DESCRIPTORS = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/DESCRIPTORS.pkl', 'rb'))
-    NNN = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models/NNN.pkl', 'rb'))
+    AD = pickle.load(open('AD.pkl', 'rb'))
+    FEATURES = pickle.load(open('FEATURES.pkl', 'rb'))
+    DESCRIPTORS = pickle.load(open('DESCRIPTORS.pkl', 'rb'))
+    NNN = pickle.load(open('NNN.pkl', 'rb'))
 
     return AD, FEATURES, DESCRIPTORS, NNN
 
 @st.cache_data()
 def load_reference_mols():
-    sup = Chem.SDMolSupplier('C:/Users/Divin/OneDrive/Desktop/models/reference_mols.sdf')
+    sup = Chem.SDMolSupplier('reference_mols.sdf')
     return [mol for mol in sup]
 
 @st.cache_data()
 def load_modelling_set():
-    df = pd.read_csv('C:/Users/Divin/OneDrive/Desktop/models/modelling_set.csv')
+    df = pd.read_csv('modelling_set.csv')
     df_0 = df[df['bioclass'] == 0]
     df_1 = df[df['bioclass'] == 1]
     mols_0 = [Chem.MolFromSmiles(x) for x in df_0['Smiles']]
