@@ -1,0 +1,8 @@
+streamlit
+streamlit_ketcher
+pandas
+rdkit
+numpy
+scipy
+sklearn
+mordred
