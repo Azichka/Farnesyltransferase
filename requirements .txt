@@ -1,8 +1,8 @@
 streamlit
-streamlit_ketcher
+streamlit-ketcher
 pandas
 rdkit
 numpy
 scipy
-sklearn
+scikit-learn
 mordred
