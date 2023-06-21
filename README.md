@@ -1,3 +1,3 @@
 # Farnesyltransferase
 Farnesyltransferase
-https://azichka-farnesyltransferase-app-a8vmpr.streamlit.app/
+https://farnesyltransferase-77e1kgro4uo.streamlit.app/
