@@ -8,6 +8,7 @@ from rdkit import Chem
 from rdkit.Chem import rdMolDescriptors
 from rdkit.Chem import Descriptors
 from rdkit.Chem import rdDepictor
+from rdkit.Chem.Draw import IPythonConsole
 from rdkit.Chem.Draw import rdMolDraw2D
 from rdkit import DataStructs
 from rdkit.Chem.FilterCatalog import *
@@ -843,7 +844,7 @@ st.write('You can input your molecules in SMILES format in the field of the left
 will be preprocessed witch includes functional group standartisation, molecules neutralization and \
 conformer canonicalization. After preprocession step descriptive statistics for each molecules will be \
 obtained which includes ML based bioactivity class prediction (98.3% accuracy on the validation set), \
-scores of 2D pharmacophore, shape (100% accuracy) and electrostatics (83% accuracy) alignment and some \
+scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostatics (83% accuracy) alignment and some \
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
 of unwanted substructures is included.')
