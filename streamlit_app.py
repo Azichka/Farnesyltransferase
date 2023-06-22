@@ -21,6 +21,8 @@ from rdkit import RDConfig
 from rdkit.Chem.PandasTools import ChangeMoleculeRendering
 from rdkit.Geometry import Point3D
 
+IPythonConsole.drawOptions.comicMode=True
+
 import mordred
 from mordred import Calculator, descriptors
 import espsim
@@ -840,9 +842,9 @@ calcs = init_calc()
 st.header('FARNESYLTRANSFERASE Project')
 st.subheader('Here you can find farnesyltransferase related project which was created to facilitate \
 more effective prioritization of compounds.' )
-st.write('You can input your molecules in SMILES format in the field of the left side. Every molecule \
-will be preprocessed witch includes functional group standartisation, molecules neutralization and \
-conformer canonicalization. After preprocession step descriptive statistics for each molecules will be \
+st.write('You can input your molecules in SMILES format in the field on the left side. Each molecule \
+will be preprocessed which includes functional group standartisation, molecular neutralization and \
+tautomer canonicalization. After preprocession step descriptive statistics for each molecule will be \
 obtained which includes ML based bioactivity class prediction (98.3% accuracy on the validation set), \
 scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostatics (83% accuracy) alignment and some \
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
@@ -860,10 +862,10 @@ with st.sidebar:
     sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
-    st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for every molecule) but you can give it a try.')
+    st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
     checker = st.checkbox('Use 3D functionality?')
     st.write('Interactive chemical space visualization can be created. It is based on TSNE and \
-    must be recalculated for every new set of molecules. Calculation will take around 4.5 seconds \
+    must be recalculated for each new set of molecules. Calculation will take around 4.5 seconds \
     plus ~ 0.5 seconds for each 100 molecules')
     space = st.checkbox('Create chemical space visualization?')
 
@@ -904,11 +906,15 @@ if len(mols) > 0:
     st.dataframe(desc.style.apply(background_color).apply(text_color).format(precision = 2))
 
     st.write('Every cell has color interpritation. Green is desired value, yellow is acceptable, red is undesired. \
-    White value of the cell means that it is hard to gшve unambiguous interpretation.')
+    White value of the cell means that it is hard to give unambiguous interpretation.')
     st.write('ML column: results of ensemble of 7 ML models. Somitimes it gives none or NA which means that requered descriptors can not be calculated \
     for particular molecule or molecule out of aplicability domain;')
     st.write('TIA column: tanimoto similarity based on ECFP2 2048 bits. Shows structurual similarity of particular molecule to those of active set;')
     st.write('TII column: tanimoto similarity based on ECFP2 2048 bits. Shows structurual similarity of particular molecule to those of inactive set;')
+    st.write('PS column: pharmacophore similarity. It is based on 2D pharmacophore fingerprints. Algorithm very sensitive to noise so obtained values \
+    will be small.;')
+    st.write('SS column: shape similarity;')
+    st.write('ES column: electrostatics similarity;')
     st.write('TPSA column: topological polar surface area of the molecule;')
     st.write('NRB column: number of rotatable bonds;')
     st.write('NHD column: number of hydrogen donors;')
@@ -919,8 +925,8 @@ if len(mols) > 0:
     st.write('AA column: aromatic atoms;')
     st.write('HA column: heavy atoms;')
     st.write('qed column: quantative estimation of druglikeness score;')
-    st.write('Veber column: number of Veber rule violation;')
-    st.write('Lipinski column: number of Lipinski rule violation;')
+    st.write('Veber column: number of Veber rule violations;')
+    st.write('Lipinski column: number of Lipinski rule violations;')
     st.write('Subs column: unwanted substuctures;')
 
     if space:
