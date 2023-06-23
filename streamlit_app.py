@@ -433,11 +433,14 @@ def apply_ml(mols, index):
             dist = [distance.euclidean(prb_desc[num], ref_desc[x, :]) for x in range(ref_desc.shape[0])]
             vals = list(np.argsort(np.argsort(dist)))
             for n in range(NNN[index]):
-                if dist[vals.index(n)] <= AD[index]:
+                if dist[vals.index(n)] <= AD[index] * 4:
                     kn += 1
 
-            res  = models[index].predict_proba(prb_desc[num, :].reshape(1, -1))
-            temp_dict.setdefault(num, res[0][1])
+            if kn == NNN[index]:
+                res  = models[index].predict_proba(prb_desc[num, :].reshape(1, -1))
+                temp_dict.setdefault(num, res[0][1])
+            else:
+                temp_dict.setdefault(num, None)
 
         except:
             temp_dict.setdefault(num, None)
