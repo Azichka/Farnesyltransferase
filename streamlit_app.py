@@ -50,7 +50,7 @@ param.useMacrocycleTorsions = True
 param.randomSeed = 1
 param.numThreads = -1
 
-fdefName = 'BaseFeatures.fdef'
+fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
 factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
 from rdkit.Chem.Pharm2D import Generate
 from rdkit.Chem.Pharm2D.SigFactory import SigFactory
@@ -72,19 +72,15 @@ def load_models():
     model_2 = pickle.load(open('models_and_scalers/model_2.pkl', 'rb'))
     model_3 = pickle.load(open('models_and_scalers/model_3.pkl', 'rb'))
     model_4 = pickle.load(open('models_and_scalers/model_4.pkl', 'rb'))
-    model_5 = pickle.load(open('models_and_scalers/model_5.pkl', 'rb'))
-    model_6 = pickle.load(open('models_and_scalers/model_6.pkl', 'rb'))
 
     minmax_0 = pickle.load(open('models_and_scalers/minmax_0.pkl', 'rb'))
     minmax_1 = pickle.load(open('models_and_scalers/minmax_1.pkl', 'rb'))
     minmax_2 = pickle.load(open('models_and_scalers/minmax_2.pkl', 'rb'))
     minmax_3 = pickle.load(open('models_and_scalers/minmax_3.pkl', 'rb'))
     minmax_4 = pickle.load(open('models_and_scalers/minmax_4.pkl', 'rb'))
-    minmax_5 = pickle.load(open('models_and_scalers/minmax_5.pkl', 'rb'))
-    minmax_6 = pickle.load(open('models_and_scalers/minmax_6.pkl', 'rb'))
 
-    models = [model_0, model_1, model_2, model_3, model_4, model_5, model_6]
-    scalers = [minmax_0, minmax_1, minmax_2, minmax_3, minmax_4, minmax_5, minmax_6]
+    models = [model_0, model_1, model_2, model_3, model_4]
+    scalers = [minmax_0, minmax_1, minmax_2, minmax_3, minmax_4]
 
     return models, scalers
 
@@ -424,7 +420,7 @@ def init_calc():
     calc7.register(mordred.EState.AtomTypeEState('count', 'aaNH'))
     calc7.register(mordred.Autocorrelation.ATSC(7, 'v'))
 
-    return [calc1, calc2, calc3, calc4, calc5, calc6, calc7]
+    return [calc1, calc2, calc3, calc4, calc5]
 
 def apply_ml(mols, index):
     temp_dict = {}
@@ -440,11 +436,8 @@ def apply_ml(mols, index):
                 if dist[vals.index(n)] <= AD[index]:
                     kn += 1
 
-            if kn == NNN[index]:
-                res  = models[index].predict_proba(prb_desc[num, :].reshape(1, -1))
-                temp_dict.setdefault(num, res[0][1])
-            else:
-                temp_dict.setdefault(num, None)
+            res  = models[index].predict_proba(prb_desc[num, :].reshape(1, -1))
+            temp_dict.setdefault(num, res[0][1])
 
         except:
             temp_dict.setdefault(num, None)
