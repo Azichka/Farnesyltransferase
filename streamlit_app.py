@@ -658,7 +658,7 @@ def ml_result(mols):
     results = {'ML': []}
     for key in list(ensemble):
         temp_res = ensemble[key]
-        if len(temp_res) > 3 and None not in temp_res:
+        if len(temp_res) >= 3 and None not in temp_res:
             results['ML'].append(np.mean(ensemble.pop(key)))
         elif None in temp_res:
             results['ML'].append('None')
