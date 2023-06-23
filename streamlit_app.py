@@ -653,17 +653,13 @@ def ml_result(mols):
     for key in list(dicts[0]):
         ensemble.setdefault(key, [x[key] for x in dicts])
 
-    st.write(ensemble)
-
     results = {'ML': []}
     for key in list(ensemble):
         temp_res = ensemble[key]
         if len(temp_res) >= 3 and None not in temp_res:
             results['ML'].append(np.mean(ensemble.pop(key)))
-        elif None in temp_res:
-            results['ML'].append('None')
         else:
-            results['ML'].append('NA')
+            results['ML'].append('None')
 
     desc = pd.DataFrame(results)
 
