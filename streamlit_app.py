@@ -50,7 +50,7 @@ param.useMacrocycleTorsions = True
 param.randomSeed = 1
 param.numThreads = -1
 
-fdefName = os.path.join(RDConfig.RDDataDir,'BaseFeatures.fdef')
+fdefName = 'BaseFeatures.fdef'
 factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
 from rdkit.Chem.Pharm2D import Generate
 from rdkit.Chem.Pharm2D.SigFactory import SigFactory
@@ -330,95 +330,6 @@ def init_calc():
     calc5.register(mordred.Autocorrelation.AATS(2, 'v'))
     calc5.register(mordred.EState.AtomTypeEState('count', 'sssCH'))
     calc5.register(mordred.ExtendedTopochemicalAtom.EtaVEMCount('s', True))
-
-    calc6 = Calculator()
-
-    calc6.register(mordred.Autocorrelation.ATSC(7, 'i'))
-    calc6.register(mordred.ExtendedTopochemicalAtom.EtaVEMCount('ns_d', False))
-    calc6.register(mordred.MoeType.VSA_EState(2))
-    calc6.register(mordred.TopologicalCharge.TopologicalCharge('raw', 8))
-    calc6.register(mordred.EState.AtomTypeEState('count', 'aaS'))
-    calc6.register(mordred.Autocorrelation.ATSC(7, 'Z'))
-    calc6.register(mordred.Autocorrelation.AATS(3, 'd'))
-    calc6.register(mordred.Autocorrelation.ATSC(8, 'i'))
-    calc6.register(mordred.Autocorrelation.ATSC(2, 'p'))
-    calc6.register(mordred.RingCount.RingCount(10, False, True, None, True))
-    calc6.register(mordred.Autocorrelation.ATSC(1, 'c'))
-    calc6.register(mordred.Framework.Framework())
-    calc6.register(mordred.EState.AtomTypeEState('count', 'aasN'))
-    calc6.register(mordred.BCUT.BCUT('i', -1))
-    calc6.register(mordred.MoeType.SlogP_VSA(11))
-    calc6.register(mordred.Autocorrelation.MATS(6, 'i'))
-    calc6.register(mordred.CarbonTypes.CarbonTypes(3, 3))
-    calc6.register(mordred.MoeType.EState_VSA(7))
-    calc6.register(mordred.Autocorrelation.ATS(3, 'd'))
-    calc6.register(mordred.InformationContent.ComplementaryIC(3))
-    calc6.register(mordred.Autocorrelation.GATS(1, 'm'))
-    calc6.register(mordred.Autocorrelation.GATS(7, 'd'))
-    calc6.register(mordred.EState.AtomTypeEState('count', 'aaNH'))
-    calc6.register(mordred.RingCount.RingCount(7, False, False, None, None))
-    calc6.register(mordred.Autocorrelation.MATS(2, 'c'))
-    calc6.register(mordred.Autocorrelation.GATS(4, 'i'))
-    calc6.register(mordred.Autocorrelation.AATS(3, 'i'))
-    calc6.register(mordred.CarbonTypes.CarbonTypes(1, 3))
-    calc6.register(mordred.Autocorrelation.ATSC(5, 'i'))
-    calc6.register(mordred.Autocorrelation.AATS(8, 'i'))
-    calc6.register(mordred.MoeType.PEOE_VSA(10))
-    calc6.register(mordred.Autocorrelation.GATS(4, 'c'))
-    calc6.register(mordred.ExtendedTopochemicalAtom.EtaDeltaBeta(False))
-    calc6.register(mordred.MoeType.EState_VSA (10))
-
-    calc7 = Calculator()
-
-    calc7.register(mordred.Autocorrelation.GATS(7, 'd'))
-    calc7.register(mordred.RingCount.RingCount(6, False, False, False, True))
-    calc7.register(mordred.BCUT.BCUT('s', 0))
-    calc7.register(mordred.RingCount.RingCount(9, False, True, False, None))
-    calc7.register(mordred.RingCount.RingCount(10, False, True, None, True))
-    calc7.register(mordred.MoeType.PEOE_VSA(9))
-    calc7.register(mordred.MoeType.VSA_EState(1))
-    calc7.register(mordred.EState.AtomTypeEState('count', 'sNH2'))
-    calc7.register(mordred.BCUT.BCUT('are', 0))
-    calc7.register(mordred.PathCount.PathCount(5, True, False, True))
-    calc7.register(mordred.MoeType.EState_VSA(3))
-    calc7.register(mordred.Constitutional.ConstitutionalMean('i'))
-    calc7.register(mordred.Chi.Chi('path', 7, 'd', False))
-    calc7.register(mordred.Chi.Chi('path', 1, 'dv', True))
-    calc7.register(mordred.RotatableBond.RotatableBondsRatio())
-    calc7.register(mordred.BaryszMatrix.BaryszMatrix('p', 'SpDiam'))
-    calc7.register(mordred.Autocorrelation.MATS(4, 'Z'))
-    calc7.register(mordred.TopologicalCharge.TopologicalCharge('raw', 8))
-    calc7.register(mordred.Autocorrelation.ATSC(5, 'i'))
-    calc7.register(mordred.TopologicalCharge.TopologicalCharge('raw', 10))
-    calc7.register(mordred.RingCount.RingCount(None, False, False, True, None))
-    calc7.register(mordred.MoeType.SMR_VSA(3))
-    calc7.register(mordred.Autocorrelation.ATS(8, 'Z'))
-    calc7.register(mordred.Autocorrelation.AATS(4, 'd'))
-    calc7.register(mordred.Autocorrelation.ATS(7, 's'))
-    calc7.register(mordred.MoeType.SlogP_VSA(10))
-    calc7.register(mordred.AcidBase.BasicGroupCount())
-    calc7.register(mordred.AtomCount.AtomCount('X'))
-    calc7.register(mordred.Autocorrelation.ATSC(8, 'i'))
-    calc7.register(mordred.Autocorrelation.AATS(3, 'v'))
-    calc7.register(mordred.HydrogenBond.HBondDonor())
-    calc7.register(mordred.Autocorrelation.GATS(2, 'c'))
-    calc7.register(mordred.Autocorrelation.ATSC(0, 'Z'))
-    calc7.register(mordred.Autocorrelation.ATSC(7, 'i'))
-    calc7.register(mordred.CPSA.RPCG())
-    calc7.register(mordred.Framework.Framework())
-    calc7.register(mordred.Autocorrelation.ATSC(7, 'd'))
-    calc7.register(mordred.Autocorrelation.ATS(7, 'i'))
-    calc7.register(mordred.Autocorrelation.AATSC(3, 'i'))
-    calc7.register(mordred.EState.AtomTypeEState('count', 'aasN'))
-    calc7.register(mordred.ExtendedTopochemicalAtom.EtaCompositeIndex(False, True, False))
-    calc7.register(mordred.MolecularId.MolecularId('hetero', False, 1e-10))
-    calc7.register(mordred.Autocorrelation.GATS(5, 'v'))
-    calc7.register(mordred.RingCount.RingCount(6, False, False, True, True))
-    calc7.register(mordred.BaryszMatrix.BaryszMatrix('se', 'SM1'))
-    calc7.register(mordred.MoeType.SlogP_VSA(2))
-    calc7.register(mordred.RingCount.RingCount(None, False, True, False, None))
-    calc7.register(mordred.EState.AtomTypeEState('count', 'aaNH'))
-    calc7.register(mordred.Autocorrelation.ATSC(7, 'v'))
 
     return [calc1, calc2, calc3, calc4, calc5]
 
@@ -741,6 +652,8 @@ def ml_result(mols):
     ensemble = {}
     for key in list(dicts[0]):
         ensemble.setdefault(key, [x[key] for x in dicts])
+
+    st.write(ensemble)
 
     results = {'ML': []}
     for key in list(ensemble):
