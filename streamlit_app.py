@@ -775,7 +775,7 @@ st.markdown(f"Smiles: ``{smiles}``")
 
 with st.sidebar:
     st.header('Here you can input one or more SMILES to obtain prediction for them')
-    sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\C12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2')
+    sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
