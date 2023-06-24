@@ -335,6 +335,7 @@ def init_calc():
 
     return [calc1, calc2, calc3, calc4, calc5]
 
+@st.cache_data()
 def apply_ml(mols, index):
     temp_dict = {}
     prb_desc = [np.array(calcs[index](m)) for m in mols]
@@ -359,6 +360,7 @@ def apply_ml(mols, index):
             temp_dict.setdefault(num, None)
     return temp_dict
 
+@st.cache_data()
 def create_confs(clean_mols):
     prbMols = []
 
@@ -374,6 +376,7 @@ def create_confs(clean_mols):
 
     return prbMols
 
+@st.cache_data()
 def align(reference_mols, prbMols, crippen_refs):
 
     alignedMols = []
@@ -617,6 +620,7 @@ def clearMols(mol):
                 rdMolStandardize.Cleanup(mol)), skipStandardize=True)))
     return mol
 
+@st.cache_data()
 def calc_desc(mol):
     desc = {}
     TPSA = Descriptors.TPSA(mol)
@@ -640,6 +644,7 @@ def calc_desc(mol):
 
     return desc
 
+@st.cache_data()
 def substructureFilter(mol):
     entries = list(catalog.GetMatches(mol))
     if len(entries) > 0:
@@ -695,6 +700,7 @@ def additional_props(clean_mols, desc):
 
     return desc
 
+@st.cache_data()
 def moltosvg(mol,molSize=(300,200)):
     drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
     drawer.DrawMolecule(mol)
@@ -778,7 +784,7 @@ st.markdown(f"Smiles: ``{smiles}``")
 
 with st.sidebar:
     st.header('Here you can input one or more SMILES to obtain prediction for them')
-    sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2')
+    sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
     if len(sm) > 50:
