@@ -705,8 +705,6 @@ def moltosvg(mol,molSize=(300,200)):
 @st.cache_resource()
 def image(df, desc, _tsne_model):
 
-    st.write(df)
-
     mod_res = df[['X', 'Y', 'bioclass']]
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(_tsne_model, columns=["X","Y"])
@@ -716,7 +714,7 @@ def image(df, desc, _tsne_model):
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
 
-    colors =  {0: "red", 1: "green", None: "blue"}
+    colors =  {0: "red", 1: "green", 'NA': "blue"}
     tsne_df['colors'] = tsne_df['bioclass'].map(colors)
 
     ChangeMoleculeRendering(renderer='PNG')
