@@ -707,7 +707,7 @@ def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
     mod_res_drug = mod_res.loc[968, :]
-    mod_res_drug.loc[968, 'bioclass'] = 'drug'
+    #mod_res_drug.loc[968, 'bioclass'] = 'drug'
     mod_res = mod_res.drop(index = 968)
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
@@ -726,7 +726,7 @@ def image(df, desc, _tsne_model):
 
     source = ColumnDataSource(data=dict(x=tsne_df['X'], y=tsne_df['Y'], svgs=svgs, bio = tsne_df['bioclass'], colors = tsne_df['colors'] ))
 
-    source_drug = ColumnDataSource(data=dict(x=mod_res_drug['X'], y=mod_res_drug['Y'], svgs=svg_drug, bio = mod_res_drug['bioclass'], colors = tsne_df['colors'] ))
+    source_drug = ColumnDataSource(data=dict(x=mod_res_drug['X'], y=mod_res_drug['Y'], svgs=svg_drug, bio = 'drug', colors = tsne_df['colors'] ))
 
     hover = HoverTool(tooltips="""
         <div>
