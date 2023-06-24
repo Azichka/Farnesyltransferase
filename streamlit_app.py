@@ -706,14 +706,18 @@ def moltosvg(mol,molSize=(300,200)):
 def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
-    mod_res.loc[968, 'bioclass'] = 'drug'
+    mod_res_drug = mod_res.loc[968, :]
+    mod_res_drug.loc[968, 'bioclass'] = 'drug'
+    mod_res = mol_res.drop(index = 968)
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
+    drug_mol= r_mols.pop(968)
     svgs_ref = [moltosvg(m).data for m in r_mols]
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
+    svg_drug = moltosvg(drug_mol).data
 
     colors =  {0: "red", 1: "green", 'NA': "blue", 'drug': 'purple'}
     tsne_df['colors'] = tsne_df['bioclass'].map(colors)
@@ -721,6 +725,8 @@ def image(df, desc, _tsne_model):
     ChangeMoleculeRendering(renderer='PNG')
 
     source = ColumnDataSource(data=dict(x=tsne_df['X'], y=tsne_df['Y'], svgs=svgs, bio = tsne_df['bioclass'], colors = tsne_df['colors'] ))
+
+    source_drug = ColumnDataSource(data=dict(x=mod_res_drug['X'], y=mod_res_drug['Y'], svgs=svg_drug, bio = mod_res_drug['bioclass'], colors = tsne_df['colors'] ))
 
     hover = HoverTool(tooltips="""
         <div>
@@ -737,7 +743,7 @@ def image(df, desc, _tsne_model):
 
     interactive_map.circle('x', 'y', size=8, source=source, color = 'colors',
         fill_alpha=0.2)
-    interactive_map.circle('x', 'y', size=8, source=source, color = 'colors',
+    interactive_map.circle('x', 'y', size=8, source=source_drug, color = 'colors',
         fill_alpha=0.2)
 
     return interactive_map
@@ -761,7 +767,7 @@ basic physicochemical properties including 6 descriptors that are included in Li
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
 of unwanted substructures is included.')
 
-default = 'C=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl'
+default = 'C12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2'
 molecule = st.text_input("Molecule", default)
 smiles = st_ketcher(molecule)
 
@@ -769,7 +775,7 @@ st.markdown(f"Smiles: ``{smiles}``")
 
 with st.sidebar:
     st.header('Here you can input one or more SMILES to obtain prediction for them')
-    sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl')
+    sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\C12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
