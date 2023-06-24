@@ -739,7 +739,7 @@ def image(df, desc,tsne_model):
 
     return interactive_map
 
-models, scalers = load_models()
+models, scalers, tsne_model = load_models()
 AD,  DESCRIPTORS, NNN = load_data()
 reference_mols = load_reference_mols()
 crippen_refs = [rdMolDescriptors._CalcCrippenContribs(rm) for rm in reference_mols]
