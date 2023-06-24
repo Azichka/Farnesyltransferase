@@ -705,6 +705,8 @@ def moltosvg(mol,molSize=(300,200)):
 @st.cache_data()
 def image(df, desc, _tsne_model):
 
+    st.write(df)
+
     mod_res = df[['X', 'Y', 'bioclass']]
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(_tsne_model, columns=["X","Y"])
