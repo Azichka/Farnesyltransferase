@@ -702,7 +702,7 @@ def moltosvg(mol,molSize=(300,200)):
     svg = drawer.GetDrawingText()
     return SVG(svg.replace('svg:',''))
 
-@st.cache_data()
+@st.cache_resource()
 def image(df, desc, _tsne_model):
 
     st.write(df)
