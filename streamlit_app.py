@@ -707,7 +707,7 @@ def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
-    tsne_df_prb = pd.DataFrame(_tsne_model, columns=["X","Y"])
+    tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
     svgs_ref = [moltosvg(m).data for m in r_mols]
