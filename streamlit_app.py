@@ -770,7 +770,7 @@ of unwanted substructures is included.')
 st.write('Note: only first 50 molecules will be processed because Streamlit gives a very limited amout of resourses and app easily can be crushed with higher \
  amount of molecules when multiple users use this app. If you want to work with much larger dataset feel free to download app from GitHub repo')
 
-default = 'C12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2'
+default = 'C=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl'
 molecule = st.text_input("Molecule", default)
 smiles = st_ketcher(molecule)
 
