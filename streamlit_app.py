@@ -79,7 +79,7 @@ def load_models():
     minmax_3 = pickle.load(open('models_and_scalers/minmax_3.pkl', 'rb'))
     minmax_4 = pickle.load(open('models_and_scalers/minmax_4.pkl', 'rb'))
 
-    tsne_model = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models_for_me/tsne_res.pkl', 'rb'))
+    tsne_model = pickle.load(open('models_and_scalers/tsne_res.pkl', 'rb'))
 
     models = [model_0, model_1, model_2, model_3, model_4]
     scalers = [minmax_0, minmax_1, minmax_2, minmax_3, minmax_4]
@@ -704,12 +704,12 @@ def moltosvg(mol,molSize=(300,200)):
 
 @st.cache_resource()
 def image(df, desc,tsne_model):
-    tr_desc = np.concatenate([df[['TPSA', 'NumRotatableBonds', 'NumHDonors', 'NumHAcceptors', 'MolWt', 'MolLogP']].values,
-                    desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values])
 
-    prb_res = tsne_mod.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
+    mod_res = df[['X', 'Y', 'bioclass']]
+    prb_res = tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(tsne_res,columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
+    tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
     svgs_ref = [moltosvg(m).data for m in r_mols]
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
