@@ -335,7 +335,6 @@ def init_calc():
 
     return [calc1, calc2, calc3, calc4, calc5]
 
-@st.cache_data()
 def apply_ml(mols, index):
     temp_dict = {}
     prb_desc = [np.array(calcs[index](m)) for m in mols]
@@ -360,7 +359,6 @@ def apply_ml(mols, index):
             temp_dict.setdefault(num, None)
     return temp_dict
 
-@st.cache_data()
 def create_confs(clean_mols):
     prbMols = []
 
@@ -376,7 +374,6 @@ def create_confs(clean_mols):
 
     return prbMols
 
-@st.cache_data()
 def align(reference_mols, prbMols, crippen_refs):
 
     alignedMols = []
@@ -620,7 +617,6 @@ def clearMols(mol):
                 rdMolStandardize.Cleanup(mol)), skipStandardize=True)))
     return mol
 
-@st.cache_data()
 def calc_desc(mol):
     desc = {}
     TPSA = Descriptors.TPSA(mol)
@@ -644,7 +640,6 @@ def calc_desc(mol):
 
     return desc
 
-@st.cache_data()
 def substructureFilter(mol):
     entries = list(catalog.GetMatches(mol))
     if len(entries) > 0:
@@ -700,7 +695,6 @@ def additional_props(clean_mols, desc):
 
     return desc
 
-@st.cache_data()
 def moltosvg(mol,molSize=(300,200)):
     drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
     drawer.DrawMolecule(mol)
