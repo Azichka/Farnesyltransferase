@@ -702,8 +702,8 @@ def moltosvg(mol,molSize=(300,200)):
     svg = drawer.GetDrawingText()
     return SVG(svg.replace('svg:',''))
 
-#@st.cache_resource()
-def image(df, desc,tsne_model):
+@st.cache_resource()
+def image(df, desc, tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
     prb_res = tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
@@ -837,7 +837,7 @@ if len(mols) > 0:
 
     if space:
 
-        interactive_map = image(df, desc)
+        interactive_map = image(df, desc, tsne_model)
 
         st.bokeh_chart(interactive_map)
 
