@@ -706,8 +706,8 @@ def moltosvg(mol,molSize=(300,200)):
 def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
-    mod_res_drug = mod_res.loc[968, :]
-    #mod_res_drug.loc[968, 'bioclass'] = 'drug'
+    X_drug = mod_res.loc[968, 'X']
+    Y_drug = mod_res.loc[968, 'Y']
     mod_res = mod_res.drop(index = 968)
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
@@ -728,7 +728,7 @@ def image(df, desc, _tsne_model):
 
     st.write(mod_res_drug)
 
-    source_drug = ColumnDataSource(data=dict(x=mod_res_drug[0], y=mod_res_drug[1], svgs=svg_drug, bio = 'drug', colors = 'purple' ))
+    source_drug = ColumnDataSource(data=dict(x=X_drug, y=Y_drug, svgs=svg_drug, bio = 'drug', colors = 'purple' ))
 
     hover = HoverTool(tooltips="""
         <div>
