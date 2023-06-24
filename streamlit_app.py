@@ -710,7 +710,7 @@ def image(df, desc, _tsne_model):
     Y_drug = mod_res.loc[968, 'Y']
     mod_res = mod_res.drop(index = 968)
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values, n_iter = 500,
-    perplexity=30, initialization='pca')
+    perplexity=30, initialization='median')
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
@@ -767,6 +767,7 @@ scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostat
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
 of unwanted substructures is included.')
+st.wrtie('Note: only first 50 molecules will be processed. If you want to work with much larger dataset feel free to download app from GitHub repo')
 
 default = 'C12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2'
 molecule = st.text_input("Molecule", default)
@@ -779,6 +780,8 @@ with st.sidebar:
     sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
+    if len(sm) > 50:
+        sm = sm[:50]
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
     checker = st.checkbox('Use 3D functionality?')
     st.write('Interactive chemical space visualization can be created. It is based on TSNE and \
