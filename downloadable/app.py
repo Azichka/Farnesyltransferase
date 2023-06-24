@@ -50,7 +50,7 @@ param.useMacrocycleTorsions = True
 param.randomSeed = 1
 param.numThreads = -1
 
-fdefName = 'BaseFeatures.fdef'
+fdefName = 'data/BaseFeatures.fdef'
 factory = ChemicalFeatures.BuildFeatureFactory(fdefName)
 from rdkit.Chem.Pharm2D import Generate
 from rdkit.Chem.Pharm2D.SigFactory import SigFactory
@@ -67,19 +67,19 @@ num_confs = 3
 
 @st.cache_resource()
 def load_models():
-    model_0 = pickle.load(open('models_and_scalers/model_0.pkl', 'rb'))
-    model_1 = pickle.load(open('models_and_scalers/model_1.pkl', 'rb'))
-    model_2 = pickle.load(open('models_and_scalers/model_2.pkl', 'rb'))
-    model_3 = pickle.load(open('models_and_scalers/model_3.pkl', 'rb'))
-    model_4 = pickle.load(open('models_and_scalers/model_4.pkl', 'rb'))
+    model_0 = pickle.load(open('data/model_0.pkl', 'rb'))
+    model_1 = pickle.load(open('data/model_1.pkl', 'rb'))
+    model_2 = pickle.load(open('data/model_2.pkl', 'rb'))
+    model_3 = pickle.load(open('data/model_3.pkl', 'rb'))
+    model_4 = pickle.load(open('data/model_4.pkl', 'rb'))
 
-    minmax_0 = pickle.load(open('models_and_scalers/minmax_0.pkl', 'rb'))
-    minmax_1 = pickle.load(open('models_and_scalers/minmax_1.pkl', 'rb'))
-    minmax_2 = pickle.load(open('models_and_scalers/minmax_2.pkl', 'rb'))
-    minmax_3 = pickle.load(open('models_and_scalers/minmax_3.pkl', 'rb'))
-    minmax_4 = pickle.load(open('models_and_scalers/minmax_4.pkl', 'rb'))
+    minmax_0 = pickle.load(open('data/minmax_0.pkl', 'rb'))
+    minmax_1 = pickle.load(open('data/minmax_1.pkl', 'rb'))
+    minmax_2 = pickle.load(open('data/minmax_2.pkl', 'rb'))
+    minmax_3 = pickle.load(open('data/minmax_3.pkl', 'rb'))
+    minmax_4 = pickle.load(open('data/minmax_4.pkl', 'rb'))
 
-    tsne_model = pickle.load(open('models_and_scalers/tsne_res.pkl', 'rb'))
+    tsne_model = pickle.load(open('data/tsne_res.pkl', 'rb'))
 
     models = [model_0, model_1, model_2, model_3, model_4]
     scalers = [minmax_0, minmax_1, minmax_2, minmax_3, minmax_4]
@@ -766,9 +766,6 @@ scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostat
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
 of unwanted substructures is included.')
-st.write('Note: this is a some kind of demo version and main app can be found in GitHub repo. Feel free to download it. This \
-demo version has a limit: only 40 first molecules will be processed due to very limited amount of resuerses that Streamlit gives you. \
-App can easily be crushed if mutliple users will use unlimited web - version. Version from repo does not have this limitation.')
 
 default = 'C=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl'
 molecule = st.text_input("Molecule", default)
@@ -781,8 +778,6 @@ with st.sidebar:
     sm = st.text_area('Input your smiles here. _**Every smiles must be in new row**_ or they will be perceived as wrong.', value = 'c1ccccc1\nC=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
-    if len(sm) > 40:
-        sm = sm[:40]
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
     checker = st.checkbox('Use 3D functionality?')
     st.write('Interactive chemical space visualization can be created. It is based on TSNE and \
@@ -827,7 +822,7 @@ if len(mols) > 0:
 
     st.write('Every cell has color interpritation. Green is desired value, yellow is acceptable, red is undesired. \
     White value of the cell means that it is hard to give unambiguous interpretation.')
-    st.write('ML column: results of ensemble of 5 ML models. Somitimes it gives none or NA which means that requered descriptors can not be calculated \
+    st.write('ML column: results of ensemble of 7 ML models. Somitimes it gives none or NA which means that requered descriptors can not be calculated \
     for particular molecule or molecule out of aplicability domain;')
     st.write('TIA column: tanimoto similarity based on ECFP2 2048 bits. Shows structurual similarity of particular molecule to those of active set;')
     st.write('TII column: tanimoto similarity based on ECFP2 2048 bits. Shows structurual similarity of particular molecule to those of inactive set;')
