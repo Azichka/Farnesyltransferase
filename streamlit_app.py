@@ -703,11 +703,11 @@ def moltosvg(mol,molSize=(300,200)):
     return SVG(svg.replace('svg:',''))
 
 @st.cache_data()
-def image(df, desc, tsne_model):
+def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
-    prb_res = tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
-    tsne_df_prb = pd.DataFrame(tsne_res,columns=["X","Y"])
+    prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
+    tsne_df_prb = pd.DataFrame(_tsne_model, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
     svgs_ref = [moltosvg(m).data for m in r_mols]
