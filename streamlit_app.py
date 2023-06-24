@@ -706,6 +706,7 @@ def moltosvg(mol,molSize=(300,200)):
 def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
+    mod_res.loc[968, 'bioclass'] =='drug'
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
@@ -714,7 +715,7 @@ def image(df, desc, _tsne_model):
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
 
-    colors =  {0: "red", 1: "green", 'NA': "blue"}
+    colors =  {0: "red", 1: "green", 'NA': "blue", drug: 'purple'}
     tsne_df['colors'] = tsne_df['bioclass'].map(colors)
 
     ChangeMoleculeRendering(renderer='PNG')
@@ -734,6 +735,8 @@ def image(df, desc, _tsne_model):
     interactive_map = figure(width=800, height=800, tools=['reset,box_zoom,wheel_zoom,zoom_in,zoom_out,pan',hover],
         title="Chemical Space")
 
+    interactive_map.circle('x', 'y', size=8, source=source, color = 'colors',
+        fill_alpha=0.2)
     interactive_map.circle('x', 'y', size=8, source=source, color = 'colors',
         fill_alpha=0.2)
 
