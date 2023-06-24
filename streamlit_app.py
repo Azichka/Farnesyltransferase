@@ -719,14 +719,14 @@ def image(df, desc, _tsne_model):
     svgs = svgs_ref + svgs_prb
     svg_drug = moltosvg(drug_mol).data
 
-    colors =  {0: "red", 1: "green", 'NA': "blue", 'drug': 'purple'}
+    colors =  {0: "red", 1: "green", 'NA': "blue"}
     tsne_df['colors'] = tsne_df['bioclass'].map(colors)
 
     ChangeMoleculeRendering(renderer='PNG')
 
     source = ColumnDataSource(data=dict(x=tsne_df['X'], y=tsne_df['Y'], svgs=svgs, bio = tsne_df['bioclass'], colors = tsne_df['colors'] ))
 
-    source_drug = ColumnDataSource(data=dict(x=mod_res_drug['X'], y=mod_res_drug['Y'], svgs=svg_drug, bio = 'drug', colors = mod_res_drug['colors'] ))
+    source_drug = ColumnDataSource(data=dict(x=mod_res_drug['X'], y=mod_res_drug['Y'], svgs=svg_drug, bio = 'drug', colors = 'purple' ))
 
     hover = HoverTool(tooltips="""
         <div>
