@@ -79,10 +79,12 @@ def load_models():
     minmax_3 = pickle.load(open('models_and_scalers/minmax_3.pkl', 'rb'))
     minmax_4 = pickle.load(open('models_and_scalers/minmax_4.pkl', 'rb'))
 
+    tsne_model = pickle.load(open('C:/Users/Divin/OneDrive/Desktop/models_for_me/tsne_res.pkl', 'rb'))
+
     models = [model_0, model_1, model_2, model_3, model_4]
     scalers = [minmax_0, minmax_1, minmax_2, minmax_3, minmax_4]
 
-    return models, scalers
+    return models, scalers, tsne_model
 
 @st.cache_data()
 def load_data():
@@ -425,7 +427,7 @@ def shape_and_electro(reference_mols, alignedMols):
                                             confId1 = alignedConf_id, confId2 = 0, ignoreHs=True, vdwScale=1.0))
 
                 results_electro[alignedMol_id].append(espsim.GetEspSim(alignedMols[alignedMol_id], refMol,
-                                    metric = 'carbo', integrate = 'gauss', partialCharges = 'gasteiger',
+                                    metric = 'tanimoto', integrate = 'gauss', partialCharges = 'gasteiger',
                                     renormalize = True, randomseed = 1, prbCid = alignedConf_id, refCid = 0))
 
         else:
@@ -701,13 +703,13 @@ def moltosvg(mol,molSize=(300,200)):
     return SVG(svg.replace('svg:',''))
 
 @st.cache_resource()
-def image(df, desc):
+def image(df, desc,tsne_model):
     tr_desc = np.concatenate([df[['TPSA', 'NumRotatableBonds', 'NumHDonors', 'NumHAcceptors', 'MolWt', 'MolLogP']].values,
                     desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values])
 
-    tsne_res = TSNE(n_components=2, random_state = 1, n_iter=1000, n_jobs = -1).fit_transform(tr_desc)
-    tsne_df = pd.DataFrame(tsne_res,columns=["X","Y"])
-    tsne_df['bioclass'] = df['bioclass']
+    prb_res = tsne_mod.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
+    tsne_df_prb = pd.DataFrame(tsne_res,columns=["X","Y"])
+    tsne_df_prb['bioclass'] = 'NA'
     svgs_ref = [moltosvg(m).data for m in r_mols]
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
@@ -770,8 +772,7 @@ with st.sidebar:
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
     checker = st.checkbox('Use 3D functionality?')
     st.write('Interactive chemical space visualization can be created. It is based on TSNE and \
-    must be recalculated for each new set of molecules. Calculation will take around 4.5 seconds \
-    plus ~ 0.5 seconds for each 100 molecules')
+    must be recalculated for each new set of molecules. Calculation will take around 10 seconds')
     space = st.checkbox('Create chemical space visualization?')
 
 mols = []
