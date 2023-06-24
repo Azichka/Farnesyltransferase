@@ -747,10 +747,6 @@ def image(df, desc, _tsne_model):
     interactive_map.circle('x', 'y', size=12, source=source_drug, color = 'colors',
         fill_alpha=0.5)
 
-    st.write('Green, red and blue points represents active, inactive and probe molecules, respectively')
-    st.write('One big purple point is a drug called Lonafarnib')
-    st.write('Visualisation based on openTSNE library. Some probe points that are identical to the reference points may not be in the same place. However, the general trend persists')
-
     return interactive_map
 
 models, scalers, tsne_model = load_models()
@@ -771,7 +767,8 @@ scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostat
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
 of unwanted substructures is included.')
-st.write('Note: only first 50 molecules will be processed. If you want to work with much larger dataset feel free to download app from GitHub repo')
+st.write('Note: only first 50 molecules will be processed because Streamlit gives a very limited amout of resourses and app easily can be crushed with higher \
+ amount of molecules when multiple users use this app. If you want to work with much larger dataset feel free to download app from GitHub repo')
 
 default = 'C12C=C(Br)C=NC=1C(C1CCN(C(CC3CCN(C(=O)N)CC3)=O)CC1)C1C(Br)=CC(Cl)=CC=1CC2'
 molecule = st.text_input("Molecule", default)
@@ -857,6 +854,10 @@ if len(mols) > 0:
         interactive_map = image(df, desc, tsne_model)
 
         st.bokeh_chart(interactive_map)
+
+        st.write('Green, red and blue points represents active, inactive and probe molecules, respectively')
+        st.write('One big purple point is a drug called Lonafarnib')
+        st.write('Visualisation based on openTSNE library. Some probe points that are identical to the reference points may not be in the same place. However, the general trend persists')
 
     st.download_button('Press here to download data',
      data = desc.to_csv().encode('utf-8'), file_name='farnesyltransferase.csv', mime='text/csv')
