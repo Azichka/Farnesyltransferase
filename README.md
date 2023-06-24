@@ -1,3 +1,3 @@
 # Farnesyltransferase
 Farnesyltransferase
-https://farnesyltransferase-9zcdqs3zc0i.streamlit.app/
+https://farnesyltransferase-nbph7z6uaae.streamlit.app/
