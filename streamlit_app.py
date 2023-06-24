@@ -726,7 +726,7 @@ def image(df, desc, _tsne_model):
 
     source = ColumnDataSource(data=dict(x=tsne_df['X'], y=tsne_df['Y'], svgs=svgs, bio = tsne_df['bioclass'], colors = tsne_df['colors'] ))
 
-    source_drug = ColumnDataSource(data=dict(x=mod_res_drug[0], y=mod_res_drug[1], svgs=svg_drug, bio = 'drug', colors = tsne_df['colors'] ))
+    source_drug = ColumnDataSource(data=dict(x=mod_res_drug['X'], y=mod_res_drug['Y'], svgs=svg_drug, bio = 'drug', colors = mod_res_drug['colors'] ))
 
     hover = HoverTool(tooltips="""
         <div>
