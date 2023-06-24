@@ -717,7 +717,7 @@ def image(df, desc, _tsne_model):
     svgs_ref = [moltosvg(m).data for m in r_mols]
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
-    svg_drug = moltosvg(drug_mol).data
+    svg_drug = [moltosvg(drug_mol).data]
 
     colors =  {0: "red", 1: "green", 'NA': "blue"}
     tsne_df['colors'] = tsne_df['bioclass'].map(colors)
