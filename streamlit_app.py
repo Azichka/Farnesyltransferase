@@ -709,7 +709,8 @@ def image(df, desc, _tsne_model):
     X_drug = mod_res.loc[968, 'X']
     Y_drug = mod_res.loc[968, 'Y']
     mod_res = mod_res.drop(index = 968)
-    prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values, n_iter = 500)
+    prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values, n_iter = 500,
+    perplexity=30)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
