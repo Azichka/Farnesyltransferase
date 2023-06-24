@@ -702,7 +702,7 @@ def moltosvg(mol,molSize=(300,200)):
     svg = drawer.GetDrawingText()
     return SVG(svg.replace('svg:',''))
 
-@st.cache_resource()
+@st.cache_data()
 def image(df, desc, tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
