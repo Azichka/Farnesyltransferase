@@ -405,7 +405,6 @@ def align(reference_mols, prbMols, crippen_refs):
 
     return alignedMols
 
-@st.cache_data()
 def shape_and_electro(reference_mols, alignedMols):
 
     results_shape = {}
@@ -441,7 +440,6 @@ def shape_and_electro(reference_mols, alignedMols):
 
     return mean_shape, max_electro
 
-@st.cache_data()
 def ph4(reference_mols, clean_mols):
 
     reference_mols_copy = copy.deepcopy(reference_mols)
@@ -647,7 +645,6 @@ def substructureFilter(mol):
     else:
         return {'None'}
 
-@st.cache_data()
 def ml_result(mols):
     clean_mols = Parallel(n_jobs = -1, prefer='processes')(delayed(clearMols)(x) for x in mols)
     dicts = Parallel(n_jobs = -1, prefer='processes')(delayed(apply_ml)(clean_mols, index) for index in range(len(calcs)))
@@ -677,7 +674,6 @@ def ml_result(mols):
 
     return desc, clean_mols
 
-@st.cache_data()
 def additional_props(clean_mols, desc):
 
     add_props = Parallel(n_jobs = -1, prefer='processes')(delayed(calc_desc)(x) for x in clean_mols)
@@ -702,7 +698,6 @@ def moltosvg(mol,molSize=(300,200)):
     svg = drawer.GetDrawingText()
     return SVG(svg.replace('svg:',''))
 
-@st.cache_resource()
 def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
@@ -765,10 +760,10 @@ obtained which includes ML based bioactivity class prediction (98.3% accuracy on
 scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostatics (83% accuracy) alignment and some \
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
-of unwanted substructures is included.')
+unwanted substructures is included.')
 st.write('Note: this is a some kind of demo version and main app can be found in GitHub repo. Feel free to download it. This \
-demo version has a limit: only 40 first molecules will be processed due to very limited amount of resuerses that Streamlit gives you. \
-App can easily be crushed if mutliple users will use unlimited web - version. Version from repo does not have this limitation.')
+demo version has a limit: only 20 first molecules will be processed due to very limited amount of resources that Streamlit gives you. \
+App can easily be crushed if mutliple users use unlimited web - version. Version from repo does not have such limitation.')
 
 default = 'C=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl'
 molecule = st.text_input("Molecule", default)
@@ -782,8 +777,8 @@ with st.sidebar:
      value = 'c1ccccc1\nC=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
-    if len(sm) > 40:
-        sm = sm[:40]
+    if len(sm) > 20:
+        sm = sm[:20]
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
     checker = st.checkbox('Use 3D functionality?')
     st.write('Interactive chemical space visualization can be created. It is based on TSNE and \
@@ -828,7 +823,7 @@ if len(mols) > 0:
 
     st.write('Every cell has color interpritation. Green is desired value, yellow is acceptable, red is undesired. \
     White value of the cell means that it is hard to give unambiguous interpretation.')
-    st.write('ML column: results of ensemble of 5 ML models. Somitimes it gives none or NA which means that requered descriptors can not be calculated \
+    st.write('ML column: results of ensemble of 5 ML models. Sometimes it gives none which means that required descriptors can not be calculated \
     for particular molecule or molecule out of aplicability domain;')
     st.write('TIA column: tanimoto similarity based on ECFP2 2048 bits. Shows structurual similarity of particular molecule to those of active set;')
     st.write('TII column: tanimoto similarity based on ECFP2 2048 bits. Shows structurual similarity of particular molecule to those of inactive set;')
