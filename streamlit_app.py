@@ -103,7 +103,7 @@ def load_reference_mols():
 
 @st.cache_data()
 def load_modelling_set():
-    df = pd.read_csv('data/modelling_set.csv')
+    df = pd.read_csv('data/modelling_set_limited.csv')
     df_0 = df[df['bioclass'] == 0]
     df_1 = df[df['bioclass'] == 1]
     mols_0 = [Chem.MolFromSmiles(x) for x in df_0['Smiles']]
