@@ -702,14 +702,14 @@ def moltosvg(mol,molSize=(300,200)):
 def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
-    X_drug = mod_res.loc[968, 'X']
-    Y_drug = mod_res.loc[968, 'Y']
-    mod_res = mod_res.drop(index = 968)
+    X_drug = mod_res.loc[4, 'X']
+    Y_drug = mod_res.loc[4, 'Y']
+    mod_res = mod_res.drop(index = 4)
     prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
-    drug_mol= r_mols.pop(968)
+    drug_mol= r_mols.pop(4)
     svgs_ref = [moltosvg(m).data for m in r_mols]
     svgs_prb = [moltosvg(m).data for m in mols]
     svgs = svgs_ref + svgs_prb
