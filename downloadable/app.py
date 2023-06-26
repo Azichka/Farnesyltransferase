@@ -358,7 +358,6 @@ def apply_ml(mols, index):
             temp_dict.setdefault(num, None)
     return temp_dict
 
-@st.cache_data(max_entries = 1)
 def create_confs(clean_mols):
     prbMols = []
 
@@ -374,7 +373,6 @@ def create_confs(clean_mols):
 
     return prbMols
 
-@st.cache_data(max_entries = 1)
 def align(reference_mols, prbMols, crippen_refs):
 
     alignedMols = []
@@ -406,7 +404,6 @@ def align(reference_mols, prbMols, crippen_refs):
 
     return alignedMols
 
-@st.cache_data(max_entries = 1)
 def shape_and_electro(reference_mols, alignedMols):
 
     results_shape = {}
@@ -442,7 +439,6 @@ def shape_and_electro(reference_mols, alignedMols):
 
     return mean_shape, max_electro
 
-@st.cache_data(max_entries = 1)
 def ph4(reference_mols, clean_mols):
 
     reference_mols_copy = copy.deepcopy(reference_mols)
@@ -699,7 +695,6 @@ def additional_props(clean_mols, desc):
 
     return desc
 
-@st.cache_data(max_entries = 1)
 def moltosvg(mol,molSize=(300,200)):
     drawer = rdMolDraw2D.MolDraw2DSVG(molSize[0],molSize[1])
     drawer.DrawMolecule(mol)
@@ -707,7 +702,6 @@ def moltosvg(mol,molSize=(300,200)):
     svg = drawer.GetDrawingText()
     return SVG(svg.replace('svg:',''))
 
-@st.cache_resource(max_entries = 1)
 def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
