@@ -771,9 +771,6 @@ scores of 2D pharmacophore (83% accuracy), shape (100% accuracy) and electrostat
 basic physicochemical properties including 6 descriptors that are included in Lipinski and Veber rules \
 as well as QED, SP3 carbon fraction, number of heavy atoms and number of aromatic atoms. Also list of \
 unwanted substructures is included.')
-st.write('Note: this is a some kind of demo version and main app can be found in GitHub repo. Feel free to download it. This \
-demo version has a limit: only 20 first molecules will be processed due to very limited amount of resources that Streamlit gives you. \
-App can easily be crushed if mutliple users use unlimited web - version. Version from repo does not have such limitation.')
 
 default = 'C=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl'
 molecule = st.text_input("Molecule", default)
@@ -787,8 +784,6 @@ with st.sidebar:
      value = 'c1ccccc1\nC=12CCC=3C=C(C=C(C3[C@H](C1N=CC(=C2)Br)C4CCN(CC4)C(=O)CC5CCN(CC5)C(N)=O)Br)Cl')
     sm = sm.split('\n')
     sm = [x for x in sm if x != '']
-    if len(sm) > 20:
-        sm = sm[:20]
     st.write('If you want you can use 3D functionality. It includes estimation of shape, electrostatical potential and pharmacophore overlay. It is not particulary fast (around 1 second for each molecule) but you can give it a try.')
     checker = st.checkbox('Use 3D functionality?')
     st.write('Interactive chemical space visualization can be created. It is based on TSNE and \
