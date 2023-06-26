@@ -705,13 +705,13 @@ def moltosvg(mol,molSize=(300,200)):
     return SVG(svg.replace('svg:',''))
 
 @st.cache_resource(max_entries = 1)
-def image(df, desc, tsne_model):
+def image(df, desc, _tsne_model):
 
     mod_res = df[['X', 'Y', 'bioclass']]
     X_drug = mod_res.loc[968, 'X']
     Y_drug = mod_res.loc[968, 'Y']
     mod_res = mod_res.drop(index = 968)
-    prb_res = tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
+    prb_res = _tsne_model.transform(desc[['TPSA', 'NRB', 'NHD', 'NHA', 'MW', 'LogP']].values)
     tsne_df_prb = pd.DataFrame(prb_res, columns=["X","Y"])
     tsne_df_prb['bioclass'] = 'NA'
     tsne_df = pd.concat([mod_res, tsne_df_prb], ignore_index = True)
